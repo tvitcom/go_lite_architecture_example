@@ -1,19 +1,19 @@
-package models
+package model
 
 import (
-    _ "github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 //Define models behaviors throught interfases:
 type IProfile interface {
-    TwentyTenPriles() ([]*Pofile, error)
+	TwentyTenPriles() ([]*Pofile, error)
 }
 
 type Profile struct {
-    Isbn   string
-    Title  string
-    Author string
-    Price  float32
+	Isbn   string
+	Title  string
+	Author string
+	Price  float32
 }
 
 // func (db *DB) AllBooks() ([]*Book, error) {

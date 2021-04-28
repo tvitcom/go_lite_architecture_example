@@ -1,10 +1,10 @@
 package config
 
 import (
-	"my.localhost/others/bookstore/internal/models"
+	"my.localhost/others/bookstore/internal/model"
 )
 
 type ConfigService struct {
-	db      models.IBooks
-	mongodb models.IProfile
+	db      model.IBooks
+	mongodb model.IProfile
 }
