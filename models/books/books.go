@@ -1,4 +1,4 @@
-package book
+package books
 
 import (
 	"database/sql"
@@ -11,7 +11,7 @@ type Book struct {
 	Price  float32
 }
 
-func AllBooks(db *sql.DB) ([]Book, error) {
+func All(db *sql.DB) ([]Book, error) {
 	rows, err := db.Query("SELECT * FROM books")
 	if err != nil {
 		return nil, err
