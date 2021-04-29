@@ -1,11 +1,14 @@
 package main
 
 import (
-	"fmt"
+	"database/sql"
 	"log"
-	"my.localhost/others/bookstore/internal/config"
-	"my.localhost/others/bookstore/internal/models"
 	"net/http"
+
+	"my.localhost/others/bookstore/handlers/books"
+	"my.localhost/others/bookstore/models"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 const (
@@ -14,28 +17,13 @@ const (
 )
 
 func main() {
-	db, err := models.NewDB(STORAGE_DRV, STORAGE_DSN)
+	db, err := sql.Open(STORAGE_DRV, STORAGE_DSN)
 	if err != nil {
-		log.Panic(err)
+		log.Fatal(err)
 	}
-	service := &config.configService{db}
 
-	fmt.Println("Start web server on :3000")
-	http.HandleFunc("/", service.booksIndex)
+	env := &models.SetupStorage{DB: db}
+
+	http.Handle("/books", books.Index(env))
 	http.ListenAndServe(":3000", nil)
-}
-
-func (service *configService) booksIndex(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "GET" {
-		http.Error(w, http.StatusText(405), 405)
-		return
-	}
-	bks, err := service.db.AllBooks()
-	if err != nil {
-		http.Error(w, http.StatusText(500), 500)
-		return
-	}
-	for _, bk := range bks {
-		fmt.Fprintf(w, "%s, %s, %s, £%.2f\n", bk.Isbn, bk.Title, bk.Author, bk.Price)
-	}
 }
