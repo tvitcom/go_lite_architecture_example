@@ -1,7 +1,7 @@
 package main
 
 import (
-	"my.localhost/others/bookstore/handler"
+	"my.localhost/others/bookstore/internal/handler"
 	"net/http"
 )
 
